@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "581945991679",
+    "firebase_url": "https://treesure-map.firebaseio.com",
+    "project_id": "treesure-map",
+    "storage_bucket": "treesure-map.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581945991679:android:e777f11190e98083",
+        "android_client_info": {
+          "package_name": "com.marinedos.treesuremap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581945991679-e1a3796us8gkgk9pjehr3luf6spo2bpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDehpBJ5Mjn-BHdS0FdeO86WnusjMyCRSg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

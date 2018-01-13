@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">Treesure Map</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="title_activity_login">Se connecter</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Se connecter</string>
+    <string name="action_sign_in_short">Connexion</string>
+    <string name="error_invalid_email">L\'email saisi est incorrect</string>
+    <string name="error_invalid_password">Le mot de passe saisi est trop court</string>
+    <string name="error_incorrect_password">Le mot de passe saisi est incorrect</string>
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="error_sign_in">Erreur de connexion</string>
+    <string name="dialog_title_location_needed">Position GPS nécessaire</string>
+    <string name="dialog_location_needed">Pour utiliser correctement TreesureMap, la localisation GPS est nécessaire. Merci de l\'activer.</string>
+    <string name="activate_gps">Activer le GPS</string>
+    <string name="cancel">Annuler</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="prompt_planting_date">Date de plantation</string>
+    <string name="prompt_plant_name">Nom</string>
+    <string name="prompt_plant_location">Localisation</string>
+    <string name="action_submit_plant">Ajouter</string>
 </resources>

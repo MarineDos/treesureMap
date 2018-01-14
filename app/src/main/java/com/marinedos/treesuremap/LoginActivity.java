@@ -68,6 +68,11 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
+
+        User user = FirebaseManager.getInstance().getCurrentUser();
+        if(user != null) {
+            completeLogin(user);
+        }
     }
 
     /**

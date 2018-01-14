@@ -17,6 +17,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.marinedos.treesuremap.classes.Plant;
+import com.marinedos.treesuremap.manager.FirebaseManager;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -108,7 +118,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Init markers on the map with user's plants
      */
     private void initUserPlants(){
-        // TODO FirebaseManager.getInstance().getUserPlants();
+        FirebaseManager.getInstance().getUserPlants(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println(dataSnapshot.getValue());
+                ArrayList<Plant> plants = new ArrayList<>();
+                for (DataSnapshot plantSnapshot: dataSnapshot.getChildren()) {
+                    Plant plant = FirebaseManager.getInstance().parsePlant(plantSnapshot);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(plant.getLongitude(), plant.getLatitude()))
+                            .title(plant.getName() + " - " + sdf.format(plant.getPlantingDate())));
+                    plants.add(plant);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO
+            }
+        });
     }
 
     /**

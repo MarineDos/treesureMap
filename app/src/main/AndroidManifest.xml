@@ -46,7 +46,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlantCreationActivity"></activity>
+        <activity android:name=".PlantCreationActivity"
+            android:parentActivityName="com.marinedos.treesuremap.MapsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.marinedos.treesuremap.MapsActivity" />
+            ></activity>
     </application>
 
 </manifest>

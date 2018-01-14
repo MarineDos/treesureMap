@@ -18,7 +18,7 @@ public class Plant {
 
     /**
      * Setter for the plant name
-     * @param name - Plant name
+     * @param name Plant name
      */
     public void setName(String name) {
         this.mName = name;
@@ -26,20 +26,50 @@ public class Plant {
 
     /**
      * Getter for planting date
-     * @return Planting date
+     * @return Planting date as a timestamp
      */
-    public Date getPlantingDate() {
-        return new Date(mPlantingDate);
+    public long getPlantingDate() {
+        return mPlantingDate;
     }
 
     /**
      * Setter for planting date
-     * @param plantingDate - Planting date
+     * @param plantingDate Planting date
      */
     public void setPlantingDate(Date plantingDate) {
         this.mPlantingDate = plantingDate.getTime();
     }
 
+    /**
+     * Getter of the longitude
+     * @return Longitude where the plant is
+     */
+    public double getLongitude() {
+        return mLongitude;
+    }
+
+    /**
+     * Setter of the longitude
+     * @param longitude Longitude where the plant is
+     */
+    public void setLongitude(double longitude) {
+        this.mLongitude = longitude;
+    }
+
+    /**
+     * Getter of the latitude
+     * @return Latitude where the plant is
+     */
+    public double getLatitude() {
+        return mLatitude;
+    }
+    /**
+     * Setter of the latitude
+     * @param latitude Latitude where the plant is
+     */
+    public void setLatitude(double latitude) {
+        this.mLatitude = latitude;
+    }
     /**
      * Name of the plant
      */
@@ -50,6 +80,16 @@ public class Plant {
     private long mPlantingDate;
 
     /**
+     * Longitude of the plant
+     */
+    private double mLongitude;
+
+    /**
+     * latitude of the plant
+     */
+    private double mLatitude;
+
+    /**
      * Default constructor
      */
     public Plant(){
@@ -57,11 +97,15 @@ public class Plant {
 
     /**
      * Plant constructor
-     * @param name - Name of the plant
-     * @param plantingDate - Planting date
+     * @param name Name of the plant
+     * @param plantingDate Planting date
+     * @param location Location as a String under format "longitude, latitude"
      */
-    public Plant(String name, Date plantingDate){
+    public Plant(String name, Date plantingDate, String location){
         this.mName = name;
-        this.mPlantingDate = plantingDate.getTime() / 1000;
+        this.mPlantingDate = plantingDate.getTime();
+        String[] parts = location.split(", ");
+        mLongitude = Double.parseDouble(parts[0]);
+        mLatitude = Double.parseDouble(parts[1]);
     }
 }

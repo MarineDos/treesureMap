@@ -5,12 +5,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.marinedos.treesuremap.classes.Plant;
 import com.marinedos.treesuremap.classes.User;
+
+import java.util.Date;
 
 /**
  * Manage Firebase interaction (authentication, database...). It is a singleton
@@ -105,19 +106,22 @@ public class FirebaseManager {
     /**
      * Retrieve plants associated to the connected user
      */
-    public void getUserPlants() {
+    public void getUserPlants(ValueEventListener listener) {
         DatabaseReference ref = mDatabase.getReference("plants/" + mCurrentUser.getId());
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // TODO
-            }
+        ref.addValueEventListener(listener);
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // TODO
-            }
-        };
-        ref.addValueEventListener(postListener);
+    /**
+     * Convert Firebase snapshot to plant
+     * @param plantSnapshot Firebase snapshot of a plant
+     * @return The plant
+     */
+    public Plant parsePlant(DataSnapshot plantSnapshot) {
+        String name = (String) plantSnapshot.child("name").getValue();
+        long plantingDate = (long) plantSnapshot.child("plantingDate").getValue();
+        double longitude = (double) plantSnapshot.child("longitude").getValue();
+        double latitude = (double) plantSnapshot.child("latitude").getValue();
+
+        return new Plant(name, new Date(plantingDate),longitude +", " +latitude);
     }
 }

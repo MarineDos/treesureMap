@@ -114,10 +114,10 @@ public class PlantCreationActivity extends AppCompatActivity {
         try {
             date = format.parse(mPlantingDate.getText().toString());
         } catch (ParseException e) {
-            e.printStackTrace();
+            date = new Date();
         }
-        Plant plant = new Plant(mPlantName.getText().toString(), date);
+        Plant plant = new Plant(mPlantName.getText().toString(), date, mLocation.getText().toString());
         FirebaseManager.getInstance().addPlant(plant);
-
+        finish();
     }
 }

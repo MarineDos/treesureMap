@@ -70,6 +70,27 @@ public class Plant {
     public void setLatitude(double latitude) {
         this.mLatitude = latitude;
     }
+
+    /**
+     * Getter for the id
+     * @return Firebase id of the plant
+     */
+    public String getId() {
+        return mId;
+    }
+
+    /**
+     * Setter of the plant id
+     * @param Id Firebase id of the plant
+     */
+    public void setId(String id) {
+        this.mId = id;
+    }
+
+    /**
+     * Id of the plant in Firebase
+     */
+    private String mId;
     /**
      * Name of the plant
      */
@@ -107,5 +128,16 @@ public class Plant {
         String[] parts = location.split(", ");
         mLongitude = Double.parseDouble(parts[0]);
         mLatitude = Double.parseDouble(parts[1]);
+    }
+
+    /**
+     * Plant constructor
+     * @param name Name of the plant
+     * @param plantingDate Planting date
+     * @param location Location as a String under format "longitude, latitude"
+     */
+    public Plant(String id, String name, Date plantingDate, String location){
+        this(name, plantingDate, location);
+        this.mId = id;
     }
 }

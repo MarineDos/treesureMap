@@ -104,6 +104,16 @@ public class FirebaseManager {
     }
 
     /**
+     * Delete a plant from the database of Firebase
+     * @param plant Plant to delete
+     */
+    public void deletePlant(Plant plant) {
+        if (plant != null) {
+            mDatabaseRef.child("plants").child(mCurrentUser.getId()).child(plant.getId()).removeValue();
+        }
+    }
+
+    /**
      * Retrieve plants associated to the connected user
      */
     public void getUserPlants(ValueEventListener listener) {
@@ -122,6 +132,6 @@ public class FirebaseManager {
         double longitude = (double) plantSnapshot.child("longitude").getValue();
         double latitude = (double) plantSnapshot.child("latitude").getValue();
 
-        return new Plant(name, new Date(plantingDate),longitude +", " +latitude);
+        return new Plant(plantSnapshot.getKey(), name, new Date(plantingDate),longitude +", " +latitude);
     }
 }

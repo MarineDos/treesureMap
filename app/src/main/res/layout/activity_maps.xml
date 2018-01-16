@@ -10,11 +10,98 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="100"
+            android:orientation="vertical"
+            android:layout_gravity="top">
+
+            <LinearLayout
+                android:id="@+id/overlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="100">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/common_google_signin_btn_icon_light_focused" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="75"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="75"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/plant_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/planting_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="5dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:orientation="horizontal"
+                            android:weightSum="100">
+
+                            <Button
+                                android:id="@+id/edit_plant"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="50"
+                                android:background="@drawable/flat_button"
+                                android:orientation="horizontal"
+                                android:text="@string/edit_plant"
+                                android:textColor="@color/green" />
+
+                            <Button
+                                android:id="@+id/delete_plant"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="50"
+                                android:background="@drawable/flat_button"
+                                android:orientation="horizontal"
+                                android:text="@string/delete_plant"
+                                android:textColor="@color/red" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addPlant"

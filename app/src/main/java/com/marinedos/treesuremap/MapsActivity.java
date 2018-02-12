@@ -177,17 +177,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     @Override
     public void onCameraMoveStarted(int reason) {
-
         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-            // TODO
-            //this.hideOverlay(true, false);
-        } else if (reason == GoogleMap.OnCameraMoveStartedListener
-                .REASON_API_ANIMATION) {
-            // TODO
-            //this.hideOverlay(true, false);
-        } else if (reason == GoogleMap.OnCameraMoveStartedListener
-                .REASON_DEVELOPER_ANIMATION) {
-            // Do nothing
+            this.hideOverlay(true, false);
         }
     }
 
@@ -221,12 +212,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mOverlayIsShown = true;
             Animation animation = new TranslateAnimation(0, 0, -350, 0);
             if(animate) {
-                animation.setDuration(1000);
+                animation.setDuration(600);
             }
             if (delay) {
-                animation.setStartOffset(300);
+                animation.setStartOffset(200);
             }
             animation.setFillAfter(true);
+            animation.setInterpolator(MapsActivity.this, android.R.interpolator.accelerate_decelerate);
             mOverlay.startAnimation(animation);
             mOverlay.setVisibility(View.VISIBLE);
         }
@@ -242,12 +234,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mOverlayIsShown = false;
             Animation animation = new TranslateAnimation(0, 0, 0, -350);
             if(animate) {
-                animation.setDuration(1000);
+                animation.setDuration(600);
             }
             if (delay) {
-                animation.setStartOffset(300);
+                animation.setStartOffset(200);
             }
             animation.setFillAfter(true);
+            animation.setInterpolator(MapsActivity.this, android.R.interpolator.accelerate_decelerate);
             mOverlay.startAnimation(animation);
             mOverlay.setVisibility(View.INVISIBLE);
         }

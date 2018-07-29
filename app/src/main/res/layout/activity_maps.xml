@@ -17,6 +17,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,89 +29,116 @@
                 android:id="@+id/overlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:background="@color/white"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:visibility="visible"
                 android:weightSum="100">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="25"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/common_google_signin_btn_icon_light_focused" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="45"
+                    android:orientation="vertical"
+                    android:weightSum="100"
+                    android:background="@color/white"
+                    android:layout_marginRight="2dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_cake_black_24dp" />
+                    <TextView
+                        android:id="@+id/plant_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16dp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="75"
-                    android:weightSum="100">
+                    android:layout_weight="45"
+                    android:orientation="vertical"
+                    android:weightSum="100"
+                    android:background="@color/white"
+                    android:layout_marginRight="2dp">
 
-                    <LinearLayout
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_cake_black_24dp" />
+                    <TextView
+                        android:id="@+id/planting_date"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="75"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/plant_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:gravity="center_horizontal"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/planting_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:layout_marginTop="5dp"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:orientation="horizontal"
-                            android:weightSum="100">
-
-                            <Button
-                                android:id="@+id/edit_plant"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="50"
-                                android:background="@drawable/flat_button"
-                                android:orientation="horizontal"
-                                android:text="@string/edit_plant"
-                                android:textColor="@color/green" />
-
-                            <Button
-                                android:id="@+id/delete_plant"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="50"
-                                android:background="@drawable/flat_button"
-                                android:orientation="horizontal"
-                                android:text="@string/delete_plant"
-                                android:textColor="@color/red" />
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:text="coucou"/>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:orientation="vertical"
+                    android:weightSum="100">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical"
+                        android:weightSum="100"
+                        android:background="@color/white"
+                        android:layout_marginBottom="2dp">
+
+                        <ImageView
+                            android:id="@+id/edit_plant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:src="@drawable/pencil"
+                            android:padding="5dp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical"
+                        android:weightSum="100"
+                        android:background="@color/red">
+
+                        <ImageView
+                            android:id="@+id/delete_plant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:src="@drawable/axe_on_log"
+                            android:padding="5dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
-
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addPlant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             app:elevation="4dp"
             app:layout_anchorGravity="bottom|right|end"
+            android:tint="@android:color/white"
             android:src="@android:drawable/ic_input_add" />
     </FrameLayout>
 </LinearLayout>

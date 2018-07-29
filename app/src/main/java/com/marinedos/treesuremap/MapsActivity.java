@@ -11,9 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener {
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener {
 
     private int MY_LOCATION_REQUEST_CODE = 1;
 
@@ -47,8 +47,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LinearLayout mOverlay;
     private TextView mPlantName;
     private TextView mPlantingDate;
-    private Button mDeletePlant;
-    private Button mEditPlant;
+    private ImageView mDeletePlant;
+    private ImageView mEditPlant;
 
     private Plant mCurrentPlant;
     private boolean mOverlayIsShown;
@@ -108,6 +108,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 mMap.setMyLocationEnabled(true);
                 mMap.setOnMarkerClickListener(this);
                 mMap.setOnCameraMoveStartedListener(this);
+                mMap.setOnMarkerDragListener(this);
                 initUserPlants();
             } else {
                 // We will need user location, inform him that it is important
@@ -175,6 +176,34 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         return false;
     }
 
+    /** Called when the user start dragging a marker. */
+    @Override
+    public void onMarkerDragStart(final Marker marker) {
+        marker.setAlpha(0.7f);
+    }
+
+    /** Called when the user drag a marker. */
+    @Override
+    public void onMarkerDragEnd(final Marker marker) {
+        marker.setAlpha(1f);
+        // Retrieve the data from the marker.
+        Plant plant = (Plant) marker.getTag();
+
+        // Update in DB the plant with new position
+        LatLng newPosition = marker.getPosition();
+        plant.setLongitude(newPosition.longitude);
+        plant.setLatitude(newPosition.latitude);
+        FirebaseManager.getInstance().updatePlant(plant);
+
+    }
+
+    /** Called when the user stop dragging a marker. */
+    @Override
+    public void onMarkerDrag(final Marker marker) {
+        marker.setAlpha(0.7f);
+
+    }
+
     @Override
     public void onCameraMoveStarted(int reason) {
         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
@@ -210,7 +239,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private void showOverlay(boolean animate, boolean delay) {
         if(!mOverlayIsShown) {
             mOverlayIsShown = true;
-            Animation animation = new TranslateAnimation(0, 0, -350, 0);
+            Animation animation = new AlphaAnimation(0.0f, 1.0f);
             if(animate) {
                 animation.setDuration(600);
             }
@@ -232,7 +261,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private void hideOverlay(boolean animate, boolean delay) {
         if(mOverlayIsShown) {
             mOverlayIsShown = false;
-            Animation animation = new TranslateAnimation(0, 0, 0, -350);
+            Animation animation = new AlphaAnimation(1.0f, 0.0f);
             if(animate) {
                 animation.setDuration(600);
             }
@@ -260,7 +289,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
                     Marker marker = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(plant.getLongitude(), plant.getLatitude())));
+                            .position(new LatLng(plant.getLongitude(), plant.getLatitude()))
+                            .draggable(true));
                     marker.setTag(plant);
                     mMarkers.put(plant.getId(), marker);
                     plants.add(plant);

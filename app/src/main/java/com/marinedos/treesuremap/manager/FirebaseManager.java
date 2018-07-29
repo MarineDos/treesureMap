@@ -78,7 +78,9 @@ public class FirebaseManager {
     public User getCurrentUser() {
         if (mCurrentUser == null) {
             FirebaseUser user = mAuth.getCurrentUser();
-            mCurrentUser = new User(user);
+            if(user != null) {
+                mCurrentUser = new User(user);
+            }
         }
         return mCurrentUser;
     }
@@ -100,6 +102,16 @@ public class FirebaseManager {
         if (plant != null) {
             String key = mDatabaseRef.child("plants").child(mCurrentUser.getId()).push().getKey();
             mDatabaseRef.child("plants").child(mCurrentUser.getId()).child(key).setValue(plant);
+        }
+    }
+
+    /**
+     * Update a plant already present in the database of Firebase
+     * @param plant Plant to update
+     */
+    public void updatePlant(Plant plant) {
+        if (plant != null) {
+            mDatabaseRef.child("plants").child(mCurrentUser.getId()).child(plant.getId()).setValue(plant);
         }
     }
 

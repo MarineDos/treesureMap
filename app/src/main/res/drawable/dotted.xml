@@ -1,0 +1,19 @@
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+android:insetBottom="-4dp"
+android:insetLeft="-4dp"
+android:insetRight="-4dp">
+
+    <shape>
+        <stroke
+            android:dashGap="5dp"
+            android:dashWidth="5dp"
+            android:width="1dp"
+            android:color="@color/black" />
+        <padding
+            android:bottom="5dp"
+            android:left="5dp"
+            android:right="5dp"
+            android:top="5dp" />
+    </shape>
+
+</inset>

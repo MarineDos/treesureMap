@@ -1,6 +1,7 @@
 package com.marinedos.treesuremap;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,11 +47,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LinearLayout mOverlay;
     private TextView mPlantName;
     private TextView mPlantingDate;
-    private ImageView mDeletePlant;
-    private ImageView mEditPlant;
+    private LinearLayout mDeletePlant;
+    private LinearLayout mEditPlant;
 
     private Plant mCurrentPlant;
     private boolean mOverlayIsShown;
+    private boolean mOverlayIsExpand;
     /**
      * Map that associated a plant id to a marker in the map
      */
@@ -74,7 +75,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPlantCreation();
+                if (mAddButton.isShown()){
+                    openPlantCreation();
+                }
             }
         });
         mDeletePlant.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +92,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 editPlant();
             }
         });
+        mPlantName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toogleOverlay();
+            }
+        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -96,6 +105,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mapFragment.getMapAsync(this);
 
         mOverlayIsShown = true;
+        mOverlayIsExpand = true;
+        this.collapseOverlay(false, false);
         this.hideOverlay(false, false);
         this.updateOverlay(null);
     }
@@ -146,6 +157,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
         LatLng defaultLocation = new LatLng(48.021169, -1.473520);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 35.0f));
@@ -238,6 +250,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      */
     private void showOverlay(boolean animate, boolean delay) {
         if(!mOverlayIsShown) {
+            mAddButton.hide();
             mOverlayIsShown = true;
             Animation animation = new AlphaAnimation(0.0f, 1.0f);
             if(animate) {
@@ -261,6 +274,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private void hideOverlay(boolean animate, boolean delay) {
         if(mOverlayIsShown) {
             mOverlayIsShown = false;
+            mAddButton.show();
+            collapseOverlay(false, false);
             Animation animation = new AlphaAnimation(1.0f, 0.0f);
             if(animate) {
                 animation.setDuration(600);
@@ -272,6 +287,72 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             animation.setInterpolator(MapsActivity.this, android.R.interpolator.accelerate_decelerate);
             mOverlay.startAnimation(animation);
             mOverlay.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * Toggle overlay with animation
+     */
+    private void toogleOverlay(){
+        if(mOverlayIsExpand && mOverlay.isShown()) {
+            collapseOverlay(true, false);
+        } else if (mOverlay.isShown()) {
+            expandOverlay(true, false);
+        }
+    }
+
+    /**
+     * Expand the overlay
+     * @param animate Boolean to know if animation is needed
+     * @param delay Boolean to know if delay is needed
+     */
+    private void expandOverlay(boolean animate, boolean delay) {
+        if(!mOverlayIsExpand) {
+            mOverlayIsExpand = true;
+
+            ValueAnimator animation = ValueAnimator.ofFloat(350f, 0f);
+            if(animate) {
+                animation.setDuration(600);
+            }
+            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+                    // You can use the animated value in a property that uses the
+                    // same type as the animation. In this case, you can use the
+                    // float value in the translationX property.
+                    float animatedValue = (float)updatedAnimation.getAnimatedValue();
+                    mOverlay.setTranslationY(animatedValue);
+                }
+            });
+            animation.start();
+            //mOverlay.animate().translationYBy(350);
+        }
+    }
+
+    /**
+     * Collapse the overlay
+     * @param animate Boolean to know if animation is needed
+     * @param delay Boolean to know if delay is needed
+     */
+    private void collapseOverlay(boolean animate, boolean delay) {
+        if(mOverlayIsExpand) {
+            mOverlayIsExpand = false;
+            ValueAnimator animation = ValueAnimator.ofFloat(0f, 350f);
+            if(animate) {
+                animation.setDuration(600);
+            }
+            animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+                    // You can use the animated value in a property that uses the
+                    // same type as the animation. In this case, you can use the
+                    // float value in the translationX property.
+                    float animatedValue = (float)updatedAnimation.getAnimatedValue();
+                    mOverlay.setTranslationY(animatedValue);
+                }
+            });
+            animation.start();
+            //mOverlay.animate().translationYBy(-350);
         }
     }
 

@@ -24,8 +24,9 @@
     <string name="prompt_plant_name">Nom</string>
     <string name="prompt_plant_location">Localisation</string>
     <string name="action_submit_plant">Ajouter</string>
+    <string name="planting_date">Planté le</string>
     <string name="edit_plant">Modifier</string>
     <string name="delete_plant">Supprimer</string>
-    <string name="toast_delete_plant">Plante déplanté en toute sécurité</string>
+    <string name="toast_delete_plant">Déplanté en toute sécurité</string>
     <string name="title_activity_maps2">Map</string>
 </resources>

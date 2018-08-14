@@ -1,6 +1,7 @@
 package com.marinedos.treesuremap;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.marinedos.treesuremap.classes.Plant;
-import com.marinedos.treesuremap.manager.FirebaseManager;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -109,6 +109,7 @@ public class PlantCreationActivity extends AppCompatActivity {
      * Create plant from user input and add it to the database
      */
     private void addPlant(){
+
         DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.FRENCH);
         Date date = null;
         try {
@@ -117,7 +118,9 @@ public class PlantCreationActivity extends AppCompatActivity {
             date = new Date();
         }
         Plant plant = new Plant(mPlantName.getText().toString(), date, mLocation.getText().toString());
-        FirebaseManager.getInstance().addPlant(plant);
-        finish();
+
+        Intent intent = new Intent(this, PlantAvatarSelectionActivity.class);
+        intent.putExtra("plant", plant);
+        startActivity(intent);
     }
 }

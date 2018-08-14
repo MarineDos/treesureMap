@@ -29,4 +29,6 @@
     <string name="delete_plant">Supprimer</string>
     <string name="toast_delete_plant">Déplanté en toute sécurité</string>
     <string name="title_activity_maps2">Map</string>
+    <string name="action_select_avatar">Sélectionner</string>
+    <string name="toast_no_avatar_selected">Sélectionne un avatar pour valider</string>
 </resources>

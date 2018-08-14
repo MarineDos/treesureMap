@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +49,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LinearLayout mOverlay;
     private TextView mPlantName;
     private TextView mPlantingDate;
+    private ImageView mPlantAvatar;
     private LinearLayout mDeletePlant;
     private LinearLayout mEditPlant;
 
     private Plant mCurrentPlant;
     private boolean mOverlayIsShown;
     private boolean mOverlayIsExpand;
+    private double savedLatitude;
+    private double savedLongitude;
     /**
      * Map that associated a plant id to a marker in the map
      */
@@ -68,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mOverlay = findViewById(R.id.overlay);
         mPlantName = findViewById(R.id.plant_name);
         mPlantingDate = findViewById(R.id.planting_date);
+        mPlantAvatar = findViewById(R.id.plant_avatar);
         mDeletePlant = findViewById(R.id.delete_plant);
         mEditPlant = findViewById(R.id.edit_plant);
         mAddButton = findViewById(R.id.addPlant);
@@ -98,6 +104,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 toogleOverlay();
             }
         });
+
+        savedLatitude = getIntent().getDoubleExtra("latitude", 48.021169);
+        savedLongitude = getIntent().getDoubleExtra("longitude", -1.473520);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -159,7 +168,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mMap = googleMap;
         mMap.getUiSettings().setMapToolbarEnabled(false);
 
-        LatLng defaultLocation = new LatLng(48.021169, -1.473520);
+        LatLng defaultLocation = new LatLng(savedLatitude, savedLongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 35.0f));
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -232,6 +241,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mPlantName.setText(plant.getName());
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
             mPlantingDate.setText(sdf.format(plant.getPlantingDate()));
+            if(plant.getImageId() != null) {
+                Resources resources = this.getResources();
+                final int resourceId = resources.getIdentifier(plant.getImageId(), "drawable", this.getPackageName());
+                mPlantAvatar.setBackground(resources.getDrawable(resourceId));
+            } else {
+                mPlantAvatar.setBackgroundResource(0);
+            }
             mCurrentPlant = plant;
             this.showOverlay(true, true);
         } else {
@@ -239,6 +255,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mPlantName.setText("");
             mPlantingDate.setText("");
             mCurrentPlant = null;
+            mPlantAvatar.setBackgroundResource(0);
             this.hideOverlay(true, true);
         }
     }
@@ -370,7 +387,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH);
                     Marker marker = mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(plant.getLongitude(), plant.getLatitude()))
+                            .position(new LatLng(plant.getLatitude(), plant.getLongitude()))
                             .draggable(true));
                     marker.setTag(plant);
                     mMarkers.put(plant.getId(), marker);

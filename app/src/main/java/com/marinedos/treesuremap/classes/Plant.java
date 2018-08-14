@@ -1,5 +1,6 @@
 package com.marinedos.treesuremap.classes;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by Marine on 13/01/2018.
  */
 
-public class Plant {
+public class Plant  implements Serializable {
     /**
      * Getter for plant name
      * @return Plant name
@@ -81,10 +82,26 @@ public class Plant {
 
     /**
      * Setter of the plant id
-     * @param Id Firebase id of the plant
+     * @param id Firebase id of the plant
      */
     public void setId(String id) {
         this.mId = id;
+    }
+
+    /**
+     * Getter for the image id
+     * @return Firebase id of the plant
+     */
+    public String getImageId() {
+        return mImageId;
+    }
+
+    /**
+     * Setter of the image id
+     * @param id Firebase id of the plant
+     */
+    public void setImageId(String id) {
+        this.mImageId = id;
     }
 
     /**
@@ -111,6 +128,11 @@ public class Plant {
     private double mLatitude;
 
     /**
+     * Associated image id
+     */
+    private String mImageId;
+
+    /**
      * Default constructor
      */
     public Plant(){
@@ -126,8 +148,8 @@ public class Plant {
         this.mName = name;
         this.mPlantingDate = plantingDate.getTime();
         String[] parts = location.split(", ");
-        mLongitude = Double.parseDouble(parts[0]);
-        mLatitude = Double.parseDouble(parts[1]);
+        mLatitude = Double.parseDouble(parts[0]);
+        mLongitude = Double.parseDouble(parts[1]);
     }
 
     /**

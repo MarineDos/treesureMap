@@ -143,7 +143,10 @@ public class FirebaseManager {
         long plantingDate = (long) plantSnapshot.child("plantingDate").getValue();
         double longitude = (double) plantSnapshot.child("longitude").getValue();
         double latitude = (double) plantSnapshot.child("latitude").getValue();
+        String imageId = (String) plantSnapshot.child("imageId").getValue();
 
-        return new Plant(plantSnapshot.getKey(), name, new Date(plantingDate),longitude +", " +latitude);
+        Plant plant = new Plant(plantSnapshot.getKey(), name, new Date(plantingDate),latitude +", " +longitude);
+        plant.setImageId(imageId);
+        return plant;
     }
 }

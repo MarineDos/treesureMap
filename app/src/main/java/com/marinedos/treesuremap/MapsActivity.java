@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -128,7 +129,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 mMap.setMyLocationEnabled(true);
                 mMap.setOnMarkerClickListener(this);
                 mMap.setOnCameraMoveStartedListener(this);
-                mMap.setOnMarkerDragListener(this);
                 initUserPlants();
             } else {
                 // We will need user location, inform him that it is important
@@ -170,6 +170,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         LatLng defaultLocation = new LatLng(savedLatitude, savedLongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 35.0f));
+        mMap.setOnMarkerDragListener(this);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -390,6 +391,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                             .position(new LatLng(plant.getLatitude(), plant.getLongitude()))
                             .draggable(true));
                     marker.setTag(plant);
+                    if (plant.getImageId() != null) {
+                        Resources resources = getResources();
+                        final int resourceId = resources.getIdentifier(plant.getImageId() + "_marker", "drawable", getPackageName());
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(resourceId));
+                    }
+                    Marker previousMarker = mMarkers.get(plant.getId());
+                    if(previousMarker != null) {
+                        previousMarker.remove();
+                    }
                     mMarkers.put(plant.getId(), marker);
                     plants.add(plant);
 

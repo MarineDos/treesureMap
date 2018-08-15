@@ -1,16 +1,19 @@
 package com.marinedos.treesuremap;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.marinedos.treesuremap.classes.Plant;
 import com.marinedos.treesuremap.manager.FirebaseManager;
 
 public class PlantAvatarSelectionActivity extends AppCompatActivity {
+
+    // UI references.
+    private Button mSubmitButton;
 
     private View mCurrentAvatar;
     private Plant mCurrentPlant;
@@ -19,6 +22,9 @@ public class PlantAvatarSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_avatar_selection);
+
+        mSubmitButton = findViewById(R.id.plant_avatar_submit_button);
+
         mCurrentPlant = (Plant)getIntent().getSerializableExtra("plant");
     }
 
@@ -28,13 +34,16 @@ public class PlantAvatarSelectionActivity extends AppCompatActivity {
      */
     public void selectAvatar(View view){
         if(mCurrentAvatar != null) {
-            mCurrentAvatar.setBackgroundColor(Color.TRANSPARENT);
+            mCurrentAvatar.setBackground(getResources().getDrawable(R.drawable.hexagon_border));
         }
         if(mCurrentAvatar == null || (String)mCurrentAvatar.getTag() != (String)view.getTag()) {
-            view.setBackgroundColor(getResources().getColor(R.color.yellow));
+            view.setBackground(getResources().getDrawable(R.drawable.hexagon_fill_border));
             mCurrentAvatar = view;
+            mSubmitButton.setAlpha(1);
         } else{
+            view.setBackground(getResources().getDrawable(R.drawable.hexagon_border));
             mCurrentAvatar = null;
+            mSubmitButton.setAlpha(0.5f);
         }
     }
 

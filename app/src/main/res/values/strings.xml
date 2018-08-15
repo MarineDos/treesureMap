@@ -30,5 +30,8 @@
     <string name="toast_delete_plant">Déplanté en toute sécurité</string>
     <string name="title_activity_maps2">Map</string>
     <string name="action_select_avatar">Sélectionner</string>
-    <string name="toast_no_avatar_selected">Sélectionne un avatar pour valider</string>
+    <string name="toast_no_avatar_selected">J\'ai besoin d\'un avatar pour exister</string>
+    <string name="choose_avatar">Choisi un avatar</string>
+    <string name="new_plant">Nouvelle plante</string>
+    <string name="plant_name_required">J\'ai besoin d\'un nom pour exister</string>
 </resources>

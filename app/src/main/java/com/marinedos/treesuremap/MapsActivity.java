@@ -268,6 +268,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      */
     private void showOverlay(boolean animate, boolean delay) {
         if(!mOverlayIsShown) {
+            expandOverlay(animate, delay);
             mAddButton.hide();
             mOverlayIsShown = true;
             Animation animation = new AlphaAnimation(0.0f, 1.0f);
@@ -327,8 +328,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private void expandOverlay(boolean animate, boolean delay) {
         if(!mOverlayIsExpand) {
             mOverlayIsExpand = true;
-
-            ValueAnimator animation = ValueAnimator.ofFloat(350f, 0f);
+            final float scale = getResources().getDisplayMetrics().density;
+            System.out.println("Scale " + scale);
+            System.out.println("Move " + 180 * scale);
+            ValueAnimator animation = ValueAnimator.ofFloat(180 * scale, 0f);
             if(animate) {
                 animation.setDuration(600);
             }
@@ -343,7 +346,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 }
             });
             animation.start();
-            //mOverlay.animate().translationYBy(350);
         }
     }
 
@@ -355,7 +357,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private void collapseOverlay(boolean animate, boolean delay) {
         if(mOverlayIsExpand) {
             mOverlayIsExpand = false;
-            ValueAnimator animation = ValueAnimator.ofFloat(0f, 350f);
+            final float scale = getResources().getDisplayMetrics().density;
+            ValueAnimator animation = ValueAnimator.ofFloat(0f, 180 * scale);
             if(animate) {
                 animation.setDuration(600);
             }
@@ -370,7 +373,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 }
             });
             animation.start();
-            //mOverlay.animate().translationYBy(-350);
         }
     }
 

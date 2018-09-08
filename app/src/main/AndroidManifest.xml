@@ -55,7 +55,15 @@
         <activity
             android:name=".MapsActivity2"
             android:label="@string/title_activity_maps2" />
-        <activity android:name=".PlantAvatarSelectionActivity"></activity>
+        <activity android:name=".PlantAvatarSelectionActivity" />
+        <activity
+            android:name=".PlantEditionActivity"
+            android:label="@string/title_activity_plant_edition"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PlantAvatarSelectionEditionActivity"
+            android:label="@string/title_activity_plant_avatar_selection_edition"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

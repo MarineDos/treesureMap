@@ -12,12 +12,10 @@
     tools:context="com.marinedos.treesuremap.PlantCreationActivity">
 
     <ScrollView
-        android:id="@+id/plant_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/plant_name_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -25,7 +23,7 @@
             <com.marinedos.treesuremap.custom.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/new_plant"
+                android:text="@string/edit_plant"
                 app:custom_font="Nature.ttf"
                 android:textAllCaps="true"
                 android:gravity="center"
@@ -86,13 +84,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/plant_creation_submit_button"
+                android:id="@+id/plant_edition_submit_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/green_major"
                 android:textColor="@color/white"
-                android:alpha="0.5"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_next_step"
                 android:textStyle="bold" />

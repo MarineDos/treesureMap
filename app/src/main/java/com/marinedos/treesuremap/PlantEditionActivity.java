@@ -2,10 +2,7 @@ package com.marinedos.treesuremap;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,8 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.marinedos.treesuremap.classes.Plant;
 
 import java.text.DateFormat;
@@ -27,8 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class PlantCreationActivity extends AppCompatActivity {
-
+public class PlantEditionActivity extends AppCompatActivity {
     private int MY_LOCATION_REQUEST_CODE = 1;
     private String DATE_FORMAT = "dd/MM/yyyy";
 
@@ -37,6 +31,7 @@ public class PlantCreationActivity extends AppCompatActivity {
     private EditText mPlantingDate;
     private EditText mLocation;
     private Button mSubmit;
+    private Plant mCurrentPlant;
 
     final Calendar mCalendar = Calendar.getInstance();
     private FusedLocationProviderClient mFusedLocationClient;
@@ -44,12 +39,15 @@ public class PlantCreationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plant_creation);
+        setContentView(R.layout.activity_plant_edition);
+        mCurrentPlant = (Plant)getIntent().getSerializableExtra("plant");
 
         mPlantName = findViewById(R.id.plant_name);
         mPlantingDate = findViewById(R.id.planting_date);
         mLocation = findViewById(R.id.plant_location);
-        mSubmit = findViewById(R.id.plant_creation_submit_button);
+        mSubmit = findViewById(R.id.plant_edition_submit_button);
+
+        mPlantName.setText(mCurrentPlant.getName());
         mPlantName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -71,6 +69,11 @@ public class PlantCreationActivity extends AppCompatActivity {
             }
         });
 
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.FRENCH);
+        mPlantingDate.setText(sdf.format(mCurrentPlant.getPlantingDate()));
+
+        mLocation.setText(mCurrentPlant.getLatitude() + ", " + mCurrentPlant.getLongitude());
+
         // Create a date picker
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -86,33 +89,16 @@ public class PlantCreationActivity extends AppCompatActivity {
         mPlantingDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(PlantCreationActivity.this, date, mCalendar
+                new DatePickerDialog(PlantEditionActivity.this, date, mCalendar
                         .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                         mCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
-        // Add location
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. So put it in corresponding editText
-                            if (location != null) {
-                                mLocation.setText(location.getLatitude() + ", " + location.getLongitude());
-                            }
-                        }
-                    });
-        }
-
         // Add plant to DB
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addPlant();
+                editPlant();
             }
         });
 
@@ -131,25 +117,24 @@ public class PlantCreationActivity extends AppCompatActivity {
     /**
      * Create plant from user input and add it to the database
      */
-    private void addPlant(){
+    private void editPlant(){
 
         DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.FRENCH);
         Date date = null;
         try {
             date = format.parse(mPlantingDate.getText().toString());
-        } catch (ParseException e) {
-            date = new Date();
-        }
+            mCurrentPlant.setPlantingDate(date);
+        } catch (ParseException e) {}
         String plantName = mPlantName.getText().toString();
         if (plantName.length() > 0){
-            Plant plant = new Plant(mPlantName.getText().toString(), date, mLocation.getText().toString());
-
-            Intent intent = new Intent(this, PlantAvatarSelectionActivity.class);
-            intent.putExtra("plant", plant);
+            mCurrentPlant.setName(mPlantName.getText().toString());
+            Intent intent = new Intent(this, PlantAvatarSelectionEditionActivity.class);
+            intent.putExtra("plant", mCurrentPlant);
             startActivity(intent);
         } else {
             Toast.makeText(this, R.string.plant_name_required,
                     Toast.LENGTH_LONG).show();
         }
     }
+
 }

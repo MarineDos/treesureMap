@@ -5,15 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.Toast;
 
 import com.marinedos.treesuremap.classes.Plant;
 import com.marinedos.treesuremap.manager.FirebaseManager;
 
-public class PlantAvatarSelectionActivity extends AppCompatActivity {
-
+public class PlantAvatarSelectionEditionActivity extends AppCompatActivity {
     // UI references.
     private Button mSubmitButton;
+    private GridLayout mGrid;
 
     private View mCurrentAvatar;
     private Plant mCurrentPlant;
@@ -21,11 +22,14 @@ public class PlantAvatarSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plant_avatar_selection);
+        setContentView(R.layout.activity_plant_avatar_selection_edition);
 
         mSubmitButton = findViewById(R.id.plant_avatar_submit_button);
+        mGrid = findViewById(R.id.avatar_selection_grid);
 
         mCurrentPlant = (Plant)getIntent().getSerializableExtra("plant");
+
+        selectAvatar(mGrid.findViewWithTag(mCurrentPlant.getImageId()));
     }
 
     /**
@@ -53,7 +57,7 @@ public class PlantAvatarSelectionActivity extends AppCompatActivity {
     public void validateAvatar(View view){
         if(mCurrentAvatar != null) {
             mCurrentPlant.setImageId((String)mCurrentAvatar.getTag());
-            FirebaseManager.getInstance().addPlant(mCurrentPlant);
+            FirebaseManager.getInstance().updatePlant(mCurrentPlant);
             Intent intent = new Intent(this, MapsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("latitude", mCurrentPlant.getLatitude());
@@ -65,4 +69,5 @@ public class PlantAvatarSelectionActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
+
 }

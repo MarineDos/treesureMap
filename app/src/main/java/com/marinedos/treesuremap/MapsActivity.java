@@ -268,7 +268,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      */
     private void showOverlay(boolean animate, boolean delay) {
         if(!mOverlayIsShown) {
-            expandOverlay(animate, delay);
             mAddButton.hide();
             mOverlayIsShown = true;
             Animation animation = new AlphaAnimation(0.0f, 1.0f);
@@ -329,9 +328,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if(!mOverlayIsExpand) {
             mOverlayIsExpand = true;
             final float scale = getResources().getDisplayMetrics().density;
-            System.out.println("Scale " + scale);
-            System.out.println("Move " + 180 * scale);
-            ValueAnimator animation = ValueAnimator.ofFloat(180 * scale, 0f);
+            ValueAnimator animation = ValueAnimator.ofFloat(130 * scale, 0);
             if(animate) {
                 animation.setDuration(600);
             }
@@ -358,7 +355,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if(mOverlayIsExpand) {
             mOverlayIsExpand = false;
             final float scale = getResources().getDisplayMetrics().density;
-            ValueAnimator animation = ValueAnimator.ofFloat(0f, 180 * scale);
+            ValueAnimator animation = ValueAnimator.ofFloat(0f, 130 * scale);
             if(animate) {
                 animation.setDuration(600);
             }
@@ -440,6 +437,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * Edit current selected plant
      */
     private void editPlant() {
-        // TODO
+
+        Intent intent = new Intent(this, PlantEditionActivity.class);
+        intent.putExtra("plant", mCurrentPlant);
+        startActivity(intent);
     }
 }

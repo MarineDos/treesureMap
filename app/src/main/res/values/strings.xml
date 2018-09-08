@@ -24,6 +24,8 @@
     <string name="prompt_plant_name">Nom</string>
     <string name="prompt_plant_location">Localisation</string>
     <string name="action_submit_plant">Ajouter</string>
+    <string name="action_edit_plant">Modifier</string>
+    <string name="action_next_step">Etape suivante</string>
     <string name="planting_date">Planté le</string>
     <string name="edit_plant">Modifier</string>
     <string name="delete_plant">Supprimer</string>
@@ -34,4 +36,8 @@
     <string name="choose_avatar">Choisi un avatar</string>
     <string name="new_plant">Nouvelle plante</string>
     <string name="plant_name_required">J\'ai besoin d\'un nom pour exister</string>
+    <string name="title_activity_plant_edition">PlantEditionActivity</string>
+    <string name="title_activity_plant_avatar_selection_edition">
+        PlantAvatarSelectionEditionActivity
+    </string>
 </resources>

@@ -245,9 +245,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             if(plant.getImageId() != null) {
                 Resources resources = this.getResources();
                 final int resourceId = resources.getIdentifier(plant.getImageId(), "drawable", this.getPackageName());
-                mPlantAvatar.setBackground(resources.getDrawable(resourceId));
+                mPlantAvatar.setImageResource(resourceId);
             } else {
-                mPlantAvatar.setBackgroundResource(0);
+                mPlantAvatar.setImageResource(0);
             }
             mCurrentPlant = plant;
             this.showOverlay(true, true);
@@ -256,7 +256,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mPlantName.setText("");
             mPlantingDate.setText("");
             mCurrentPlant = null;
-            mPlantAvatar.setBackgroundResource(0);
+            mPlantAvatar.setImageResource(0);
             this.hideOverlay(true, true);
         }
     }

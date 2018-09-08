@@ -1,9 +1,6 @@
 package com.marinedos.treesuremap;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -19,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +75,13 @@ public class LoginActivity extends AppCompatActivity {
         if(user != null) {
             completeLogin(user);
         }
+    }
+
+    @Override
+    protected void onResume(){
+        showProgress(false);
+        super.onResume();
+
     }
 
     /**
@@ -151,8 +153,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param user
      */
     private void completeLogin(User user) {
-        showProgress(false);
-
         if (user != null && user.getEmail() != null && !user.getEmail().isEmpty()) {
             // Login successful
             Intent intent = new Intent(this, MapsActivity.class);
@@ -160,7 +160,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             mPasswordView.setError(getString(R.string.error_incorrect_password));
             mPasswordView.requestFocus();
-
         }
     }
 

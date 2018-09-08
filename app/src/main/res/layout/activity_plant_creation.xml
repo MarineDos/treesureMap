@@ -80,7 +80,7 @@
                     android:focusable="false"
                     android:editable="false"
                     android:maxLines="1"
-                    android:alpha="0.5"
+                    android:alpha="0.2"
                     android:singleLine="true"/>
 
             </android.support.design.widget.TextInputLayout>
